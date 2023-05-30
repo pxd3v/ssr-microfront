@@ -8,10 +8,15 @@
 import Children from "./components/Children.vue";
 
 const result = ref("");
+const { data } = await useAsyncData("item", () =>
+  $fetch("http://localhost:3001")
+);
 
-async function fetchChildren() {
-  result.value = await $fetch("http://localhost:3000");
-}
-
-fetchChildren();
+watch(
+  data,
+  () => {
+    result.value = data.value;
+  },
+  { immediate: true }
+);
 </script>
